@@ -1,5 +1,4 @@
 import re
-import spacy
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from typing import Dict, List, Optional, Tuple
@@ -23,14 +22,8 @@ def _tier_score(n: float, tiers:list)-> float:
     return 0.0
 
 #Location/privacy detection
-def detect_location_info(text: str, nlp: spacy.Language) -> Dict:
+def detect_location_info(text: str) -> Dict:
     locations = []
-
-    #method01: spacy NER
-    doc = nlp(text)
-    for ent in doc.ents:
-        if ent.label_ in ['GPE', 'LOC']:
-            locations.append({'text': ent.text, 'type': ent.label_.lower(), 'start': ent.start_char})
 
     #moetod02: street address regx
     for match in re.finditer(STREET_ADDRESS_PATTERN, text, re.IGNORECASE):

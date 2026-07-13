@@ -19,13 +19,12 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies (filtering out frontend packages to save space)
+RUN grep -v -E "streamlit|requests|supabase" requirements.txt > backend-requirements.txt && \
+    pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r backend-requirements.txt
 
-# Download spaCy models (primary and secondary as per config.py)
-RUN python -m spacy download en_core_web_md && \
-    python -m spacy download en_core_web_sm
+# Spacy has been removed from this project to save image space
 
 # Copy the rest of the application code
 COPY . .

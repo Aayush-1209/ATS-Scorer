@@ -8,8 +8,7 @@ from backend.core.config import(
     APP_DESCRIPTION, 
     APP_TITLE, 
     APP_VERSION, 
-    SPACY_MODEL_PRIMARY, 
-    SPACY_MODEL_SECONDARY, SENTENCE_TRANSFORMER_MODEL
+    SENTENCE_TRANSFORMER_MODEL
 )
 from backend.api.routes import router
 
@@ -19,15 +18,7 @@ logger=logging.getLogger('ats_resume_scorer')
 async def lifespan(app:FastAPI):
     logger.info('Starting ATS Resume Analyzer API...')
 
-    logger.info(f'Loading spaCy NLP model: {SPACY_MODEL_PRIMARY}')
-    import spacy
-    try:
-        app.state.nlp = spacy.load(SPACY_MODEL_PRIMARY)
-        logger.info(f'Loaded {SPACY_MODEL_PRIMARY}')
-    except OSError:
-        logger.warning(f'{SPACY_MODEL_PRIMARY} not found — falling back to {SPACY_MODEL_SECONDARY}')
-        app.state.nlp = spacy.load(SPACY_MODEL_SECONDARY)
-        logger.info(f'Loaded {SPACY_MODEL_SECONDARY} (fallback)')
+    # Spacy NLP models have been removed
 
     logger.info(f'Loading SentenceTransformer: {SENTENCE_TRANSFORMER_MODEL}')
     from sentence_transformers import SentenceTransformer
