@@ -22,6 +22,7 @@ COPY requirements.txt .
 # Install Python dependencies (filtering out frontend packages to save space)
 RUN grep -v -E "streamlit|requests|supabase" requirements.txt > backend-requirements.txt && \
     pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r backend-requirements.txt
 
 # Spacy has been removed from this project to save image space

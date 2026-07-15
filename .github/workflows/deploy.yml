@@ -54,6 +54,9 @@ jobs:
             docker stop backend || true
             docker rm backend || true
             
+            # Clean up old unused images and containers to free up disk space
+            docker system prune -af
+            
             # Pull the latest image
             docker pull $IMAGE
             
